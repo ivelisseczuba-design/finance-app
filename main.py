@@ -30,16 +30,15 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Build APK (Auto-Confirm)
-      run: |
-        # 这里的 "yes" 就是自动点头机器
-        # 它会疯狂输入 y，防止程序卡在问答环节
-        yes | flet build apk --verbose
+    - name: Build APK
+      # ⚠️ 注意这里：我把所有命令写在了一行，确保 "yes" 一定生效！
+      run: yes | flet build apk --verbose
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: finance-app-release
         path: build/apk/app-release.apk
+
 
 
