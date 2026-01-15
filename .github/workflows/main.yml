@@ -1,0 +1,42 @@
+name: Build APK
+
+on:
+  workflow_dispatch: # 允许手动点击按钮触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install cookiecutter
+
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Build APK
+      run: |
+        # 让 flet 自动下载引擎并打包
+        flet build apk --project my_first_app.py --verbose
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: finance-app-release
+        path: build/apk/app-release.apk
