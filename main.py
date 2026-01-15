@@ -1,7 +1,7 @@
 name: Build APK
 
 on:
-  workflow_dispatch: # 允许手动点击按钮触发
+  workflow_dispatch:
 
 jobs:
   build:
@@ -19,7 +19,6 @@ jobs:
     - name: Install Dependencies
       run: |
         pip install -r requirements.txt
-        # 安装 Flet 打包工具
         pip install cookiecutter
 
     - name: Setup Java
@@ -31,10 +30,10 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Build APK
+    - name: Build APK (Auto-Confirm)
       run: |
-        # 核心修改：加了 "yes |" 
-        # 意思就是：不管系统问什么，全部自动回答 "Yes"
+        # 这里的 "yes" 就是自动点头机器
+        # 它会疯狂输入 y，防止程序卡在问答环节
         yes | flet build apk --verbose
 
     - name: Upload APK
@@ -42,4 +41,5 @@ jobs:
       with:
         name: finance-app-release
         path: build/apk/app-release.apk
+
 
