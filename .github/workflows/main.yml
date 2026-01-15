@@ -33,7 +33,7 @@ jobs:
     - name: Build APK
       run: |
         # 让 flet 自动下载引擎并打包
-        flet build apk --project my_first_app.py --verbose
+        flet build apk --verbose
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
